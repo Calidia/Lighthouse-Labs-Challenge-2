@@ -1,17 +1,21 @@
+// Set the powerOn property of the ship on
 function powerOn() {
   ship.powerOn = true;
 }
 
+// Return the number of available modules
 function countModules() {
   return availableModules.length;
 }
 
+// Return the number of essential modules
 function countEssential() {
   return availableModules.reduce((counter, module) => {
     return (module.essential === true ? ++counter : counter);
   },0);
 }
 
+// Load a module using the filter method
 // function loadModule(index) {
 //   let newModule = null;
 //   availableModules.filter((module,modIndex) => {
@@ -24,6 +28,7 @@ function countEssential() {
 //     module.enabled = true;
 //   }
     
+// Load a module passed by index
 function loadModule(index) {
   let module = null;
   for(let i = 0; i < availableModules.length; i++) {
@@ -38,6 +43,7 @@ function loadModule(index) {
   }
 }
 
+// Find the life-support module and returns its index
 function findModule() {
   // availableModules.filter((module,modIndex) => {
   //   if (module.name === 'life-support')
@@ -50,6 +56,7 @@ function findModule() {
   }
 }
 
+// Find a module's index using its name and essential property
 function findModuleIndex(name, ess) {
   // availableModules.filter((module,modIndex) => {
   //   if(module.name === name && module.hasOwnProperty("essential"))
@@ -64,39 +71,46 @@ function findModuleIndex(name, ess) {
   }
 }
 
+// Test out the functions created above
 loadModule(findModule());
 loadModule(findModuleIndex("propulsion", true));
 loadModule(findModuleIndex("navigation", true));
 loadModule(findModuleIndex("communication", false));
 
+// Reset Larry who has had some technical issues
 function resetLARRY() {
   for (let i = 0; i < 10; i++) LARRY.quack();
 }
 
 resetLARRY();
 
+// Set the navigation message in the radio
 function setMessage() {
   radio.message = JSON.stringify(navigation);
 }
 
 setMessage();
 
+// Activate the beacon property of the radio
 function activateBeacon() {
   radio.beacon = true;
 }
 
 activateBeacon();
 
+// Set the frequency of the radio
 function setFrequency() {
   radio.frequency = (radio.range.low + radio.range.high)/2;
 }
 
+// Initialise the navigation properties
 function initialize() {
   navigation.x = 0;
   navigation.y = 0;
   navigation.z = 0;
 }
 
+// Calibrate the navigation properties
 function calibrateX() {
   var signal = null;
   for (let i = 0; i < 12; i++) {
@@ -130,21 +144,25 @@ function calibrate() {
   calibrateZ();
 }
 
+// Set the navigation speed according to the passed speed
 function setSpeed(speed) {
   let speedInt = parseInt(speed);
   if (speedInt >= 0)
     navigation.speed = speedInt;
 }
 
+// Activate the ship's antenna
 function activateAntenna() {
   ship.antenna['active'] = true;
 }
 
+// Sent the broadcast 100 times
 function sendBroadcast() {
   for (let i = 0; i < 100; i++) 
     broadcast();
 }
 
+// Confirgurate the broadcast by using the methods above
 function configureBroadcast() {
   setFrequency();
   activateAntenna();
@@ -153,6 +171,7 @@ function configureBroadcast() {
 
 configureBroadcast();
 
+// Decode the received message
 function decodeMessage(message) {
   String.prototype.replaceAll = function(search, replacement) {
     var target = this;
@@ -162,6 +181,7 @@ function decodeMessage(message) {
   return decodedMessage;
 }
 
+// Return to earth using the broadcasted decoded coordinates
 function returnToEarth() {
   var earthCoordX = broadcast('x');
   var earthCoordY = broadcast('y');
